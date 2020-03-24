@@ -19,14 +19,13 @@ class StudentComponent extends Component    {
             courses: Courses,
             student: {},
             selectedInputName: '',
-            setValidityId: true,
-            setValidityName: true
+            setValidity: true,
         };
     }
 
     handleInputs= (evt) => {        
         this.setState({[evt.target.name]: evt.target.value});
-        this.setState({selectedInputName: evt.target.name})
+       // this.setState({selectedInputName: evt.target.name})
     }
 
 
@@ -44,13 +43,19 @@ class StudentComponent extends Component    {
             alert('Fill the required fields');
             return;
         }
+        if(this.state.setValidity === false)  {
+            alert('Cannot save');
+            return;
+        }
         let student = {
-            StudentId: this.state.StudentId,
+            StudentId: parseInt(this.state.StudentId),
             StudentName: this.state.StudentName,
             University: this.state.University,
             Course: this.state.Course,
             Fees: this.state.Fees
         };
+
+        
         
         this.setState({student: student});
         this.handleClear();
@@ -95,6 +100,10 @@ class StudentComponent extends Component    {
          this.setState({Fees: student.Fees});
     }
 
+    validity(value)    {
+        this.setState({setValidity: value});
+    }
+
     render()    {
         return (
             <div className="container">
@@ -102,13 +111,13 @@ class StudentComponent extends Component    {
                     <label>Student Id</label><br/>
                     <input type="text" value={this.state.StudentId} name="StudentId" onChange={this.handleInputs.bind(this)} className="form-control-lg"  required/>
                     <font style={{color:"red"}}>  *</font>
-                    <ValidationComponent name="StudentId" data={this.state.StudentId} ></ValidationComponent> 
+                    <ValidationComponent name="StudentId" data={this.state.StudentId} Valid={this.validity.bind(this)}></ValidationComponent> 
                 </div>
                 <div className="form-group">
                     <label>Student Name</label><br/>
                     <input type="text"  value={this.state.StudentName} name="StudentName" onChange={this.handleInputs.bind(this)} className="form-control-lg" required/>
                     <font style={{color:"red"}}>  *</font>
-                    <ValidationComponent name="StudentName" data={this.state.StudentName} setValidity={this.setValidityName.bind(this)}></ValidationComponent> 
+                    <ValidationComponent name="StudentName" data={this.state.StudentName} Valid={this.validity.bind(this)}></ValidationComponent> 
                 </div>
                 <div className="form-group">
                     <label>University</label><br/>
@@ -121,7 +130,7 @@ class StudentComponent extends Component    {
                     <label>Fees</label><br/>
                     <input type="text" value={this.state.Fees} name="Fees" onChange={this.handleInputs.bind(this)} className="form-control-lg" />
                     <font style={{color:"red"}}>  *</font>
-                    <ValidationComponent name="Fees" data={this.state.Fees}></ValidationComponent> 
+                    <ValidationComponent name="Fees" data={this.state.Fees} Valid={this.validity.bind(this)}></ValidationComponent> 
                 </div>
                 <div className="form-group">
                     <input type="button" value="New" onClick={this.handleClear.bind(this)} className="btn btn-warning" />

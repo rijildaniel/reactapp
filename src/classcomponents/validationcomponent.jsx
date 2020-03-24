@@ -13,23 +13,31 @@ class ValidationComponent extends Component {
         if(name === "StudentId") {         
               
             if(parseInt(value) < 0 || value.length > 5) {                
-                if(false !== this.state.setValidId)
+                if(false !== this.state.setValidId) {
                     this.setState({setValidId: false});
+                this.props.Valid(false);
+                }
             }
             else{
-                if(true !== this.state.setValidId)
+                if(true !== this.state.setValidId)  {
                     this.setState({setValidId: true});
+                this.props.Valid(true);
+                }
             }
         }
 
         if(name === "StudentName")  {
             if(value.length > 20 || !value.match(/^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/) && value !== '')   {
-                if(false !== this.state.setValidName)
+                if(false !== this.state.setValidName)   {
                     this.setState({setValidName: false});
+                this.props.Valid(false);
+                }
             } 
             else{
-                if(true !== this.state.setValidName)
+                if(true !== this.state.setValidName)    {
                     this.setState({setValidName: true});
+                this.props.Valid(true);
+                }
             }
         }
 
@@ -37,17 +45,17 @@ class ValidationComponent extends Component {
             if(!value.toString().match("^[+-]?([0-9]+([.][0-9]*)?|[.][0-9]+)$")) {
                 if(false !== this.state.setValidFees)  {
                     this.setState({setValidFees: false})
+                    this.props.Valid(false);
                 }
             }
             else{
                 if(true !== this.state.setValidFees)  {
                     this.setState({setValidFees: true})
+                    this.props.Valid(true);
                 }
             }
         }
     }
-
-
 
     render()    {
         this.validateForm(this.props.name, this.props.data);

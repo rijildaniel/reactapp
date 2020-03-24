@@ -28,6 +28,7 @@ class DataGridComponent extends Component {
     deleteStudent(evt)  {
         let studs = this.logic.deleteStudent(parseInt(evt.target.value));        
         this.setState({students: studs});
+        
         this.checkRecordsIsEmpty(studs);
     }
 
